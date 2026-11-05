@@ -162,6 +162,7 @@ function aboutDialog(modal) {
                 the fire was extinguished: 0–3 months, 3–12 months, 1–2 years and 2+ years. Normal levels are averages
                 from before the fire started.</li>
             <li>The predictions describe fires on the scale of 2019–20 (Black Summer) and the heavy rain that followed. Most of a fire's effect on water quality arrives when rain washes ash and soil into the estuary.</li>
+            <li><strong>Salinity is a flood indicator, not a fire response.</strong> A fall in salinity indicates freshwater inflow after rain, which a fire cannot cause directly.</li>
             <li><strong>Consistent changes</strong> are listed first: most estuaries changed the same way (p &lt; 0.05).</li>
             <li>If the land drains to an estuary that wasn't monitored, the monitored estuary nearest that estuary's mouth is used, with a warning.
                 Land draining straight to the ocean, or inland west of the Great Dividing Range, isn't covered.</li>
