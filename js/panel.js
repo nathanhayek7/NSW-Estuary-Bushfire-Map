@@ -66,7 +66,7 @@ function paramTable(rows) {
         return `
             <tr>
                 <th scope="row">
-                    <span class="pname">${escapeHtml(r.parameter)}</span>
+                    <span class="pname">${escapeHtml(r.parameter)}${r.parameter === 'Salinity' ? '*' : ''}</span>
                     <span class="psub"><span class="units">${escapeHtml(r.units)}</span>${dots(r.p)}</span>
                     <span class="pinfo" hidden>${escapeHtml(evidenceText(r.p))}</span>
                 </th>
@@ -125,6 +125,7 @@ function columnKey(site, rows) {
         </dl>
         ${noData.length ? `<p class="small muted">– means there's no pre-fire data at ${escapeHtml(site.name)} for ${escapeHtml(noData.join(', '))}. The typical change still applies.</p>` : ''}
         ${zero.length ? `<p class="small muted">– means the pre-fire level of ${escapeHtml(zero.join(', '))} at ${escapeHtml(site.name)} was 0 (below detection), so multiplying can't give a level. The typical change still applies.</p>` : ''}
+        <p class="small muted">* A fall in salinity indicates freshwater inflow after rain (a flood indicator), not a direct fire response.</p>
         ${salinityFloored ? '<p class="small muted">Salinity can\'t fall below 0psu, so its likely range here stops at 0.</p>' : ''}
         <h4>Evidence (dots)</h4>
         <p class="small muted">How consistently the estuaries changed the same way. Tap the dots for the p-value.</p>
