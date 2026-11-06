@@ -59,8 +59,19 @@ function dots(p, asButton = true) {
         : `<span class="dots" aria-hidden="true">${inner}</span>`;
 }
 
+// Rows with an expected level come first; rows without one (no usable pre-fire level) go in a group underneath
 function paramTable(rows) {
-    const body = rows.map(r => {
+    const withLevel = rows.filter(hasLevel);
+    const withoutLevel = rows.filter(r => !hasLevel(r));
+    const groupHeading = withoutLevel.length ? `
+            <tr class="group-row">
+                <th scope="rowgroup" colspan="5" class="small muted" style="padding-top: 10px; font-style: italic;">No usable pre-fire level (typical change only)</th>
+            </tr>` : '';
+    return table(paramRows(withLevel) + groupHeading + paramRows(withoutLevel));
+}
+
+function paramRows(rows) {
+    return rows.map(r => {
         const dir = direction(r);
         const arrow = dir > 0 ? '▲' : dir < 0 ? '▼' : '';
         return `
@@ -76,7 +87,9 @@ function paramTable(rows) {
                 <td class="change">${arrow ? `<span class="arrow">${arrow}</span>` : ''}${fmtChange(r)}</td>
             </tr>`;
     }).join('');
+}
 
+function table(body) {
     return `
         <table class="ptable">
             <colgroup><col class="c-param"><col class="c-num"><col class="c-num"><col class="c-range"><col class="c-num"></colgroup>
@@ -123,7 +136,7 @@ function columnKey(site, rows) {
             <dt>Likely range</dt><dd>Where the level would be if this estuary changed like the middle 80% of the 14 monitored estuaries.</dd>
             <dt>Change</dt><dd>The typical change across the 14 monitored estuaries. × means multiplied by; + or − means added or taken away.</dd>
         </dl>
-        ${noData.length ? `<p class="small muted">– means there's no pre-fire data at ${escapeHtml(site.name)} for ${escapeHtml(noData.join(', '))}. The typical change still applies.</p>` : ''}
+        ${noData.length ? `<p class="small muted">– means there's no usable pre-fire data at ${escapeHtml(site.name)} for ${escapeHtml(noData.join(', '))}. The typical change still applies.</p>` : ''}
         ${zero.length ? `<p class="small muted">– means the pre-fire level of ${escapeHtml(zero.join(', '))} at ${escapeHtml(site.name)} was 0 (below detection), so multiplying can't give a level. The typical change still applies.</p>` : ''}
         <p class="small muted">* A fall in salinity indicates freshwater inflow after rain (a flood indicator), not a direct fire response.</p>
         ${salinityFloored ? '<p class="small muted">Salinity can\'t fall below 0psu, so its likely range here stops at 0.</p>' : ''}
